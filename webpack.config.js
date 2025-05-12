@@ -22,5 +22,8 @@ module.exports = {
                 exclude: /node_modules/
             }
         ]
-    }
+    },
+    externals: [
+        "fs", "path", "http", "os", "cluster", "url"
+    ],
 };

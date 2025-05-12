@@ -1,9 +1,12 @@
 import cluster from 'cluster';
 import http, { IncomingMessage, RequestOptions } from 'http';
 import os from 'os';
-import { app } from './server';
+import dotenv from 'dotenv';
+import { app } from './app';
 
-const PORT = 4000;
+dotenv.config();
+
+const PORT = process.env.PORT_CLUSTER ? parseInt(process.env.PORT_CLUSTER) : 4000;
 const numCPUs = os.cpus().length - 1;
 
 let currentWorker = 0;

@@ -1,17 +1,9 @@
-import { IncomingMessage, ServerResponse } from 'http';
-import { userRoutes } from './users/controller';
+import http from 'http';
+import { app } from './app';
+import 'dotenv/config';
 
-export const app = (req: IncomingMessage, res: ServerResponse) => {
-    console.log(
-        `[Worker ${process.pid}] Received ${req.method} ${req.url} on port ${req.socket.localPort}`
-    );
+const PORT = process.env.PORT || 3000;
 
-    const { url, method } = req;
-
-    if (url?.startsWith('/api/users')) {
-        userRoutes(req, res);
-    } else {
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: 'Not found' }));
-    }
-};
+http.createServer(app).listen(PORT, () => {
+    console.log(`[Worker ${process.pid}] Server is running on http://localhost:${PORT}`);
+});

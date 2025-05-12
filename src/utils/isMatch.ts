@@ -1,0 +1,1 @@
+export const idMatch = (pathname: string) => pathname?.match(/^\/api\/users\/([^/]+)$/);

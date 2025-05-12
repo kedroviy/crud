@@ -3,9 +3,12 @@ const path = require("path");
 module.exports = {
     mode: "production",
     target: "node",
-    entry: "./src/server.ts",
+    entry: {
+        bundle: './src/server.ts',
+        cluster: './src/cluster.ts',
+    },
     output: {
-        filename: "bundle.js",
+        filename: "[name].js",
         path: path.resolve(__dirname, "dist")
     },
     resolve: {

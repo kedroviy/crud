@@ -1,16 +1,14 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { parse } from 'url';
 import { getUser, listUsers, createUser, updateUser, deleteUser } from './service';
 import { getRequestBody } from '../utils/getRequestBody';
 import { idMatch } from '../utils/isMatch';
 
 export const userRoutes = async (req: IncomingMessage, res: ServerResponse) => {
-    const { pathname } = parse(req.url || '', true);
-
-    const userId = pathname ? idMatch(pathname)?.[1] : null;
+    const url = req.url || '';
+    const userId = url ? idMatch(url)?.[1] : null
 
     try {
-        if (req.method === 'GET' && pathname === '/api/users') {
+        if (req.method === 'GET' && url === '/api/users') {
             const users = listUsers();
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(users));
@@ -24,7 +22,7 @@ export const userRoutes = async (req: IncomingMessage, res: ServerResponse) => {
             return;
         }
 
-        if (req.method === 'POST' && pathname === '/api/users') {
+        if (req.method === 'POST' && url === '/api/users') {
             const parsed = await getRequestBody(req);
             const newUser = createUser(parsed);
             res.writeHead(201, { 'Content-Type': 'application/json' });
